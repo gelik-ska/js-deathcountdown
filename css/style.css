@@ -40,4 +40,28 @@ body {
 .countdown-item {
   padding: 6px;
   min-width: 65px;
+}
+
+.start-button {
+  display: block;
+  margin: 40px auto;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.start-button:hover {
+  background-color: #620000;
+  transform: scale(1.05);
+}
+
+.start-button:active {
+  background-color: #a30000;
+  transform: scale(0.95);
 }/*# sourceMappingURL=style.css.map */
