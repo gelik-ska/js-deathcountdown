@@ -53,26 +53,21 @@
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  // Создаём контейнер
   const container = document.createElement("div");
   container.className = "container";
 
-  // Добавляем изображение
   const image = document.createElement("img");
   image.className = "image";
   image.src = "assets/image.webp";
   image.alt = "ryuk";
 
-  // Заголовок
   const heading = document.createElement("h2");
   heading.className = "heading";
   heading.textContent = "Ты умрешь через:";
 
-  // Контейнер для таймера
   const countDown = document.createElement("div");
   countDown.className = "countdown";
 
-  // Функция для создания элементов таймера
   function createCountItem(label) {
     const countItem = document.createElement("div");
     countItem.className = "countdown-item";
@@ -89,32 +84,31 @@ document.addEventListener("DOMContentLoaded", function() {
     return countItem;
   }
 
-  // Добавляем таймер
   countDown.appendChild(createCountItem("years"));
+  countDown.appendChild(createCountItem("months"));
   countDown.appendChild(createCountItem("days"));
   countDown.appendChild(createCountItem("hours"));
   countDown.appendChild(createCountItem("minutes"));
   countDown.appendChild(createCountItem("seconds"));
 
-  // Добавляем элементы в контейнер
   container.appendChild(image);
   container.appendChild(heading);
   container.appendChild(countDown);
   document.body.appendChild(container);
 
-  // Получаем элементы после добавления в DOM
   const items = document.querySelectorAll(".countdown-item > h4");
 
-  // 📌 Функция для генерации случайной даты в будущем
   function getRandomFutureDate() {
     const now = new Date();
-    const randomYears = Math.floor(Math.random() * 60) + 1; // От 1 до 5 лет
-    const randomDays = Math.floor(Math.random() * 365);
+    const randomYears = Math.floor(Math.random() * 5) + 1;
+    const randomMonths = Math.floor(Math.random() * 12);
+    const randomDays = Math.floor(Math.random() * 30);
     const randomHours = Math.floor(Math.random() * 24);
     const randomMinutes = Math.floor(Math.random() * 60);
     const randomSeconds = Math.floor(Math.random() * 60);
 
     now.setFullYear(now.getFullYear() + randomYears);
+    now.setMonth(now.getMonth() + randomMonths);
     now.setDate(now.getDate() + randomDays);
     now.setHours(randomHours);
     now.setMinutes(randomMinutes);
@@ -123,34 +117,33 @@ document.addEventListener("DOMContentLoaded", function() {
     return now.getTime();
   }
 
-  // 🕒 Устанавливаем случайную дату отсчёта
   let countDownDate = getRandomFutureDate();
-  console.log("Конечная дата:", new Date(countDownDate)); // Проверяем в консоли
+  console.log("Конечная дата:", new Date(countDownDate));
 
   function getCountTime() {
     const now = new Date().getTime();
     const distance = countDownDate - now;
 
-    // Вычисляем годы, дни, часы, минуты, секунды
-    const oneYear = 365 * 24 * 60 * 60 * 1000;
-    const oneDay = 24 * 60 * 60 * 1000;
-    const oneHour = 60 * 60 * 1000;
-    const oneMinute = 60 * 1000;
+    const oneSecond = 1000;
+    const oneMinute = 60 * oneSecond;
+    const oneHour = 60 * oneMinute;
+    const oneDay = 24 * oneHour;
+    const oneMonth = 30 * oneDay;
+    const oneYear = 12 * oneMonth;
 
     let years = Math.floor(distance / oneYear);
-    let days = Math.floor((distance % oneYear) / oneDay);
+    let months = Math.floor((distance % oneYear) / oneMonth);
+    let days = Math.floor((distance % oneMonth) / oneDay);
     let hours = Math.floor((distance % oneDay) / oneHour);
     let minutes = Math.floor((distance % oneHour) / oneMinute);
-    let seconds = Math.floor((distance % oneMinute) / 1000);
+    let seconds = Math.floor((distance % oneMinute) / oneSecond);
 
-    const values = [years, days, hours, minutes, seconds];
+    const values = [years, months, days, hours, minutes, seconds];
 
-    // Обновляем HTML
     items.forEach((item, index) => {
       item.textContent = values[index];
     });
 
-    // Если время истекло
     if (distance < 0) {
       clearInterval(countDownInterval);
       countDown.innerHTML = '<img src="assets/smert-s-kosoy.jpg" alt="ryuk" class="image" />';
@@ -158,7 +151,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // Запускаем таймер
   let countDownInterval = setInterval(getCountTime, 1000);
   getCountTime();
 });
