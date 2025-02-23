@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-width: 800px;
+  align-items: center;
+  margin: 0 auto;
+  padding: 36px;
+  h4 {
+    margin-top: 60px;
+  }
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+}
+
+.countdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: center;
+  font-size: 16px;
+  min-width: 320px;
+}
+
+.countdown-item {
+  padding: 6px;
+  min-width: 65px;
+  
+}
