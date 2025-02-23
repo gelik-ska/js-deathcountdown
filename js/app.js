@@ -90,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // Добавляем таймер
+  countDown.appendChild(createCountItem("years"));
   countDown.appendChild(createCountItem("days"));
   countDown.appendChild(createCountItem("hours"));
   countDown.appendChild(createCountItem("minutes"));
@@ -107,15 +108,13 @@ document.addEventListener("DOMContentLoaded", function() {
   // 📌 Функция для генерации случайной даты в будущем
   function getRandomFutureDate() {
     const now = new Date();
-
-    // Генерируем случайные дни (от 1 до 365)
-    const randomDays = Math.floor(Math.random() * 365) + 1;
-    // Генерируем случайные часы, минуты и секунды
+    const randomYears = Math.floor(Math.random() * 60) + 1; // От 1 до 5 лет
+    const randomDays = Math.floor(Math.random() * 365);
     const randomHours = Math.floor(Math.random() * 24);
     const randomMinutes = Math.floor(Math.random() * 60);
     const randomSeconds = Math.floor(Math.random() * 60);
 
-    // Добавляем к текущей дате
+    now.setFullYear(now.getFullYear() + randomYears);
     now.setDate(now.getDate() + randomDays);
     now.setHours(randomHours);
     now.setMinutes(randomMinutes);
@@ -132,17 +131,19 @@ document.addEventListener("DOMContentLoaded", function() {
     const now = new Date().getTime();
     const distance = countDownDate - now;
 
-    // Вычисляем дни, часы, минуты, секунды
+    // Вычисляем годы, дни, часы, минуты, секунды
+    const oneYear = 365 * 24 * 60 * 60 * 1000;
     const oneDay = 24 * 60 * 60 * 1000;
     const oneHour = 60 * 60 * 1000;
     const oneMinute = 60 * 1000;
 
-    let days = Math.floor(distance / oneDay);
+    let years = Math.floor(distance / oneYear);
+    let days = Math.floor((distance % oneYear) / oneDay);
     let hours = Math.floor((distance % oneDay) / oneHour);
     let minutes = Math.floor((distance % oneHour) / oneMinute);
     let seconds = Math.floor((distance % oneMinute) / 1000);
 
-    const values = [days, hours, minutes, seconds];
+    const values = [years, days, hours, minutes, seconds];
 
     // Обновляем HTML
     items.forEach((item, index) => {
@@ -161,4 +162,3 @@ document.addEventListener("DOMContentLoaded", function() {
   let countDownInterval = setInterval(getCountTime, 1000);
   getCountTime();
 });
-
